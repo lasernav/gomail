@@ -58,7 +58,30 @@ func main() {
 			if status {
 				log.Println("Email sent successfully using OAUTH")
 			}
+		}
 
+		if inputMethod == "LSR" {
+			gomail.OAuthGmailService()
+
+			status, err := gomail.SendEmail("TARGA-MEZZO", "https://rp.lasernavigation.it:6014", "Camera Recorder START", emailTo)
+			if err != nil {
+				log.Println(err)
+			}
+			if status {
+				log.Println("Email sent successfully using LSR")
+			}
+		}
+
+		if inputMethod == "LSRATT" {
+			gomail.OAuthGmailService()
+
+			status, err := gomail.SendEmailAttachment("TARGA-MEZZO", "https://rp.lasernavigation.it:6014", "Invasione GEOFENCE", emailTo, "/home/laser/gomail/", "2022_06_09_08_19_43.jpg")
+			if err != nil {
+				log.Println(err)
+			}
+			if status {
+				log.Println("Email sent successfully using LSRATT")
+			}
 		}
 	} else {
 		log.Println("Please add SMTP or OAUTH along with go run main.go command")
@@ -71,7 +94,9 @@ func IsValidInputMethod(method string) bool {
 	switch method {
 	case
 		"SMTP",
-		"OAUTH":
+		"OAUTH",
+		"LSR",
+		"LSRATT":
 		return true
 	}
 	return false
